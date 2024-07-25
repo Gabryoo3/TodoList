@@ -5,8 +5,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(TodoList main.cpp
         Activity.cpp
-        DateTime.cpp
-        DateTime.h
         Activity.h
         ActivityList.cpp
         ActivityList.h)

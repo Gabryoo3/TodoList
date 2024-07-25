@@ -5,13 +5,16 @@
 #ifndef TODOLIST_ACTIVITY_H
 #define TODOLIST_ACTIVITY_H
 #include <iostream>
-#include "DateTime.h"
+#include <chrono>
+
 
 class Activity {
 public:
-    Activity(int num, std::string &name) : numActivity(num), nameActivity(name){
+    Activity(int num, std::string name) : numActivity(num), nameActivity(name){
+        insertTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); //prende il tempo attuale per inserimento
+    }
 
-}
+    Activity() = default;
 
     int getNumActivity() const {
         return numActivity;
@@ -24,17 +27,40 @@ public:
     bool isDone() const {
         return done;
     }
+    void setNumActivity(int numActivity) {
+        Activity::numActivity = numActivity;
+    }
 
-    void printTime(){
-        dt.printTime();
+    void setNameActivity(const std::string &nameActivity) {
+        Activity::nameActivity = nameActivity;
+    }
+
+    void setDone(bool done) {
+        Activity::done = done;
+    }
+
+    time_t getInsertTime() const {
+        return insertTime;
+    }
+
+    void setInsertTime(time_t insertTime) {
+        Activity::insertTime = insertTime;
+    }
+
+    time_t getFinishedTime() const {
+        return finishedTime;
+    }
+
+    void setFinishedTime(time_t finishedTime) {
+        Activity::finishedTime = finishedTime;
     }
 
 private:
     int numActivity;
     std::string nameActivity;
     bool done = false;
-    DateTime dt;
-
+    std::time_t insertTime;
+    std::time_t finishedTime;
 };
 
 

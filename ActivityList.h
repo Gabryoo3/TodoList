@@ -11,13 +11,12 @@
 
 class ActivityList {
 public:
-    void getList(){
-        std::ifstream List()
-    }
+    int getList();
+
+    int saveList();
 
 private:
     std::list<Activity> ActList;
-
 };
 
 
