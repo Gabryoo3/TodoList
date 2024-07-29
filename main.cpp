@@ -1,8 +1,11 @@
 #include <iostream>
 #include "Activity.h"
+#include "ActivityList.h"
 int main() {
 
-    Activity a1(0, "test");
-
+    ActivityList al;
+    Activity a1 ("test");
+    al.addActivity(a1);
+    al.saveList();
 
 }
