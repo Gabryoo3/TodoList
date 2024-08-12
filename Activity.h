@@ -11,7 +11,7 @@
 class Activity {
 public:
     Activity(std::string name) : nameActivity(name){
-        insertTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); //prende il tempo attuale per inserimento
+        //insertTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); //prende il tempo attuale per inserimento
     }
     const std::string &getNameActivity() const {
         return nameActivity;
@@ -28,7 +28,7 @@ public:
         Activity::done = done;
     }
 
-    time_t getInsertTime() const {
+    /*time_t getInsertTime() const {
         return insertTime;
     }
 
@@ -42,15 +42,15 @@ public:
 
     void setFinishedTime(time_t finishedTime) {
         Activity::finishedTime = finishedTime;
-    }
+    }*/
 
 
 
 private:
     std::string nameActivity;
     bool done = false;
-    std::time_t insertTime;
-    std::time_t finishedTime;
+    /*std::time_t insertTime;
+    std::time_t finishedTime;*/
 };
 
 

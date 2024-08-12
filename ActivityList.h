@@ -18,7 +18,7 @@ public:
 
     void addActivity (Activity& a){
         ActList.push_back(a);
-        std::cout<<"Activity "<<a.getNameActivity()<<" added";
+        std::cout<<"Activity "<<a.getNameActivity()<<" added"<<std::endl;
     }
 
     void removeActivity(){
@@ -36,15 +36,9 @@ public:
         std::cout<<"Activity "<<a.getNameActivity()<<" removed"<<std::endl;
     }
 
-    void printActivities(){
-        int i = 0;
-        for (auto const &a : ActList){
-            std::cout<<i<<a.getNameActivity()<<a.getInsertTime();
-            if(a.isDone())
-                std::cout<<a.getFinishedTime();
-            std::cout<<a.isDone();
-        }
-    }
+    void printActivities();
+
+
 
 private:
     std::vector<Activity> ActList;
