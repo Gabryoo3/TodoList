@@ -8,5 +8,11 @@ int main() {
     al.addActivity(a1);
     al.printActivities();
     al.saveList();
+    Activity a2 ("test2");
+    al.addActivity(a2);
+    al.printActivities();
+    std::cout<<"two activities"<<std::endl;
+    al.getList();
+    al.printActivities();
 
 }

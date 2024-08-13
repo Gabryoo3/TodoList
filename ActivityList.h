@@ -14,29 +14,16 @@ class ActivityList {
 public:
     int getList();
 
-    int saveList();
+    int saveList() const ;
 
     void addActivity (Activity& a){
         ActList.push_back(a);
         std::cout<<"Activity "<<a.getNameActivity()<<" added"<<std::endl;
     }
 
-    void removeActivity(){
-        int remove;
-        std::cout<<"List of all activities: "<<std::endl;
-        printActivities();
-        std::cout<<"Insert what activity you want to remove"<<std::endl;
-        std::cin>>remove;
-        if(remove > ActList.size() || remove < 0){
-            std::cerr<<"Remove value wrong"<<std::endl;
-            return;
-        }
-        Activity a = ActList[remove];
-        ActList.erase(ActList.begin()+remove);
-        std::cout<<"Activity "<<a.getNameActivity()<<" removed"<<std::endl;
-    }
+    void removeActivity();
 
-    void printActivities();
+    void printActivities() const;
 
 
 
