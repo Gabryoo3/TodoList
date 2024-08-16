@@ -24,7 +24,7 @@ public:
         Activity::nameActivity = nameActivity;
     }
 
-    void setDone(bool& done) {
+    void setDone(const bool done) {
         Activity::done = done;
     }
 

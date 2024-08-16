@@ -7,4 +7,6 @@ add_executable(TodoList main.cpp
         Activity.cpp
         Activity.h
         ActivityList.cpp
-        ActivityList.h)
+        ActivityList.h
+        TUI.cpp
+        TUI.h)

@@ -14,12 +14,11 @@ class ActivityList {
 public:
     int getList();
 
-    int saveList() const ;
+    void saveList() const ;
 
-    void addActivity (Activity& a){
-        ActList.push_back(a);
-        std::cout<<"Activity "<<a.getNameActivity()<<" added"<<std::endl;
-    }
+    void addActivity ();
+
+    void completeActivity();
 
     void removeActivity();
 
