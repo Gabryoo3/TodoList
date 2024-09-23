@@ -30,9 +30,7 @@ void ActivityList::saveList() const {
         return;
     }
     for(const Activity& a : ActList){
-        txtlist << a.getNameActivity()<<"," /*< std::to_string(a.getInsertTime())*/;
-        /*if(a.isDone())
-            txtlist << std::to_string(a.getFinishedTime());*/
+        txtlist << a.getNameActivity()<<",";
         txtlist << std::to_string(a.isDone())<<std::endl;
     }
     txtlist.close();
@@ -96,9 +94,7 @@ void ActivityList::printActivities() const{
     std::cout<<"List of all activities: "<<std::endl;
     std::cout<<"Index Name Done"<<std::endl;
     for (auto const &a : ActList){
-        std::cout<<i<<" | "<<a.getNameActivity()<<" | "/*<<a.getInsertTime()*/;
-        /*if(a.isDone())
-            std::cout<<a.getFinishedTime();*/
+        std::cout<<i<<" | "<<a.getNameActivity()<<" | ";
         std::cout<<( a.isDone() ? "true" : "false" )<<std::endl;
         i++;
     }
