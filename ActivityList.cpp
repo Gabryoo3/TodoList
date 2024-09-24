@@ -48,6 +48,10 @@ void ActivityList::addActivity() {
 
 void ActivityList::completeActivity() {
     int complete;
+    if(ActList.empty()){
+        std::cerr<<"List is empty"<<std::endl;
+        return;
+    }
     printActivities();
     std::cout<<"Insert which activity you want to complete: ";
     std::cin>>complete;
@@ -68,8 +72,12 @@ void ActivityList::completeActivity() {
 void ActivityList::removeActivity() {
     int remove;
     bool confirm = false;
+    if(ActList.empty()){
+        std::cerr<<"List is empty"<<std::endl;
+        return;
+    }
     printActivities();
-    std::cout<<"Insert what activity you want to remove: ";
+    std::cout<<"Insert the number of activity you want to remove: ";
     std::cin>>remove;
     std::cout<<std::endl;
     if(remove > ActList.size() || remove < 0){

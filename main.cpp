@@ -34,7 +34,8 @@ int main() {
                         break;
                   }
                   case 6: {
-                       std::cout<<"Exiting..."<<std::endl;
+                        std::cout<<"Exiting..."<<std::endl;
+                        list.saveList();
                         break;
                   }
                   default: {
