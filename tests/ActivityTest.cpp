@@ -6,10 +6,10 @@
 
 #ifndef ACTIVITYTEST_H
 #define ACTIVITYTEST_H
-#include "lib/googletest-1.15.2/googletest/include/gtest/gtest.h"
-#include "lib/googletest-1.15.2/googletest/include/gtest/gtest_pred_impl.h"
-#include "../Activity.h"
 
+#include <gtest/gtest.h>
+
+#include "../Activity.h"
 
 class ActivityTest : public ::testing::Test {
 
@@ -17,15 +17,26 @@ protected:
     Activity* activity;
     virtual void SetUp() {
         activity = new Activity("Test");
-        ASSERT_EQ(activity->getNameActivity(),"Test");
-
-
     }
-
     virtual void TearDown()  {
         delete activity;
     }
 };
+
+TEST_F(ActivityTest, testGetNameActivity) {
+    ASSERT_EQ(activity->getNameActivity(), "Test");
+    ASSERT_FALSE(activity->isDone());
+}
+
+TEST_F(ActivityTest, testSetNameActivity) {
+    activity->setNameActivity("Test2");
+    ASSERT_EQ(activity->getNameActivity(), "Test2");
+}
+
+TEST_F(ActivityTest, testSetDone) {
+    activity->setDone(true);
+    ASSERT_TRUE(activity->isDone());
+}
 
 
 #endif //ACTIVITYTEST_H
