@@ -53,7 +53,7 @@ void ActivityList::completeActivity() {
         return;
     }
     printActivities();
-    std::cout<<"Insert which activity you want to complete: ";
+    std::cout<<"Insert the index of activity you want to complete: ";
     std::cin>>complete;
     std::cout<<std::endl;
     if(complete > ActList.size() || complete < 0){
@@ -77,7 +77,7 @@ void ActivityList::removeActivity() {
         return;
     }
     printActivities();
-    std::cout<<"Insert the number of activity you want to remove: ";
+    std::cout<<"Insert the index of activity you want to remove: ";
     std::cin>>remove;
     std::cout<<std::endl;
     if(remove > ActList.size() || remove < 0){
