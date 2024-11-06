@@ -1,34 +1,40 @@
 //
 // Created by gabry on 7/25/24.
 //
-
+//TODO segnare quante attività sono state completate o non completate
+//TODO conteggio attività
 #ifndef TODOLIST_ACTIVITYLIST_H
 #define TODOLIST_ACTIVITYLIST_H
 #include <vector>
 #include <iostream>
 #include <fstream>
-#include "Activity.h"
 #include <string>
+#include <chrono>
+#include "Activity.h"
+
 
 class ActivityList {
 public:
-    int getList();
+    int getListFromFile();
 
     void saveList() const ;
 
-    void addActivity ();
+    Activity& addActivity(std::string activityName);
 
-    void completeActivity();
+    void completeActivity(int complete);
 
-    void removeActivity();
+    void removeActivity(int remove);
 
     void printActivities() const;
+
+    int getSize() const {
+        return ActList.size();
+    }
 
 
 
 private:
     std::vector<Activity> ActList;
-
 };
 
 

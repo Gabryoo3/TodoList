@@ -22,7 +22,7 @@ TEST_F(ActivityListTestsFixture, testAddActivity) {
     al->addActivity();
     al->saveList();
     al->printActivities();
-    ASSERT_EQ(al->getList(), 0);
+    ASSERT_EQ(al->getListFromFile(), 0);
 }
 
 TEST_F(ActivityListTestsFixture, testCompleteActivity) {
@@ -30,7 +30,7 @@ TEST_F(ActivityListTestsFixture, testCompleteActivity) {
     al->completeActivity();
     al->printActivities();
     al->saveList();
-    ASSERT_EQ(al->getList(), 0);
+    ASSERT_EQ(al->getListFromFile(), 0);
 }
 
 TEST_F(ActivityListTestsFixture, testRemoveActivity) {
@@ -38,7 +38,7 @@ TEST_F(ActivityListTestsFixture, testRemoveActivity) {
     al->removeActivity();
     al->printActivities();
     al->saveList();
-    ASSERT_EQ(al->getList(), 0);
+    ASSERT_EQ(al->getListFromFile(), 0);
 }
 
 

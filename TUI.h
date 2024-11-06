@@ -6,7 +6,7 @@
 #define TUI_H
 #include <iostream>
 
-
+//TODO Observer che tiene traccia cambiamenti
 class TUI {
 public:
     void printMenu();
