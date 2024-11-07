@@ -19,16 +19,20 @@ public:
 
     void saveList() const ;
 
-    Activity& addActivity(std::string activityName);
+    int addActivity(std::string activityName);
 
-    void completeActivity(int complete);
+    int completeActivity(int complete);
 
-    void removeActivity(int remove);
+    int removeActivity(int remove);
 
     void printActivities() const;
 
     int getSize() const {
         return ActList.size();
+    }
+
+    Activity& getActivity(const int index) {
+        return ActList[index];
     }
 
 

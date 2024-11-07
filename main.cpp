@@ -9,21 +9,23 @@ int main() {
       TUI tui;
       int choice = 0;
       while(choice !=6) {
+            int control = 0;
             tui.printMenu();
             std::cout<<"Insert your choice: ";
             std::cin >> choice;
             switch (choice) {
                   case 1:
+
                         std::string name;
                         std::cout<<"Insert activity name: ";
                         std::cin>>name;
-                        list.addActivity(name);
+                        control = list.addActivity(name);
                         //TODO metti possibilità di estrarre il valore con certo indice
-                        for(auto i : list) {
-                              if(i.getNameActivity().equals(name)) {
-                                    std::cout<<"Activity"<<i.getNameActivity()<<"added";
-                                    break;
-                              }
+                        if(control == 1) {
+                              std::cout<<"Successfully added activity";
+                        }
+                        else if(control==-1) {
+                              std::cout<<"Failed to add activity";
                         }
                   break;
                   case 2:
@@ -39,14 +41,32 @@ int main() {
                               break;
                         }
                         //TODO controlla se attività già completata
-                        list.completeActivity(complete);
-                        std
+                        control = list.completeActivity(complete);
+                        if(control == 1) {
+                              std::cout<<"Activity successfully completed";
+                        }
+                        else if(control == -1)
+                              std::cout<<"Failed to complete activity";
                   break;
 
-
-
                   case 3: {
-                        list.removeActivity();
+                        int remove;
+                        if(list.getSize() == 0) {
+                              std::cout<<"Empty list";
+                              break;
+                        }
+                        std::cout<<"Insert index of the activity you want to complete: ";
+                        std::cin>>remove;
+                        if(remove > list.getSize() || remove < 0) {
+                              std::cout<<"Invalid index";
+                              break;
+                        }
+                        control = list.removeActivity(remove);
+                        if(control == 1)
+                              std::cout<<"Activity successfully removed";
+
+                        else if(control == -1)
+                              std::cout<<"Failed to remove activity";
                         break;
                   }
                   case 4: {

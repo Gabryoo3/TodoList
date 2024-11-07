@@ -15,7 +15,7 @@ public:
     Activity(std::string& name, std::string& currTime) : nameActivity(name), startTime(currTime){
 
     }
-    const std::string &getNameActivity() const {
+    const std::string &getNameActivity(){
         return nameActivity;
     }
 
@@ -23,11 +23,11 @@ public:
         return done;
     }
 
-    std::string getStartTime() const {
+    std::string& getStartTime() const {
         return startTime;
     }
 
-    std::string getEndTime() const {
+    std::string& getEndTime() const {
         if (done) {
             return endTime;
         }

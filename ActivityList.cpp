@@ -65,21 +65,41 @@ void ActivityList::saveList() const {
     txtlist.close();
 }
 
-Activity& ActivityList::addActivity(std::string name) {
+int ActivityList::addActivity(std::string name) {
     auto now = std::chrono::system_clock::now();
     std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
     Activity actv(name, time);
-    ActList.push_back(actv);
-    return actv;
+    if(actv.getNameActivity()==name) {
+        ActList.push_back(actv);
+        return 1;
+    }
+    else
+        return -1;
+
+
 }
 
-void ActivityList::completeActivity(int complete) {
-    ActList[complete].setDone(true);
+int ActivityList::completeActivity(int complete) {
+    if(!ActList[complete].isDone()) {
+        ActList[complete].setDone(true);
+        return 1;
+    }
+    else
+        return 0;
 }
 
 
-void ActivityList::removeActivity(int remove) {
+int ActivityList::removeActivity(int remove) {
+    int forceRemove = 0;
+    if(!ActList[remove].isDone()) {
+        std::cout<<"Activity still not completed. You want to procede? Type 1 if you want: ";
+        std::cin>>forceRemove;
+    }
+    if(forceRemove != 1) {
+        return -1;
+    }
     ActList.erase(ActList.begin()+remove);
+    return 1;
 }
 
 
