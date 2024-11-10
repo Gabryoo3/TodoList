@@ -12,29 +12,28 @@
 
 class Activity {
 public:
-    Activity(std::string& name, std::string& currTime) : nameActivity(name), startTime(currTime){
-
+    Activity(const std::string& name, const std::string& currTime): nameActivity(name), startTime(currTime) {
     }
-    const std::string &getNameActivity(){
-        return nameActivity;
+
+    std::string& getNameActivity() const{
+        return nameActivity; //FIXME
     }
 
     bool isDone() const {
         return done;
     }
 
-    std::string& getStartTime() const {
+    std::string& getStartTime() const{
         return startTime;
     }
 
-    std::string& getEndTime() const {
-        if (done) {
-            return endTime;
-        }
-        std::cout<<"Activity not finished yet";
+    std::string& getEndTime() const{
+        if (done)
+            std::cout<<"Activity not finished yet";
+        return endTime;
     }
 
-    void setNameActivity(const std::string &nameActivity) {
+    void setNameActivity(const std::string &nameActivity) const{
         Activity::nameActivity = nameActivity;
     }
 
@@ -42,7 +41,7 @@ public:
         Activity::done = done;
     }
 
-    void setEndTime(const std::string &endTime) {
+    void setEndTime(const std::string &endTime) const{
         Activity::endTime = endTime;
     }
 

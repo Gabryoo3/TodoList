@@ -15,15 +15,17 @@
 
 class ActivityList {
 public:
-    int getListFromFile();
+    ActivityList(): ActList() {
+    };
+    int getListFromFile() const;
 
-    void saveList() const ;
+    int saveList() const ;
 
-    int addActivity(std::string activityName);
+    int addActivity(const std::string& activityName) const;
 
-    int completeActivity(int complete);
+    int completeActivity(int complete) const;
 
-    int removeActivity(int remove);
+    int removeActivity(int remove) const;
 
     void printActivities() const;
 
@@ -31,14 +33,14 @@ public:
         return ActList.size();
     }
 
-    Activity& getActivity(const int index) {
+    /*Activity& getActivity(const int index) {
         return ActList[index];
-    }
+    }*/
 
 
 
 private:
-    std::vector<Activity> ActList;
+    std::vector<Activity>& ActList;
 };
 
 

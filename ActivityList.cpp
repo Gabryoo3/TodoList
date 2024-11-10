@@ -3,11 +3,10 @@
 //
 
 #include "ActivityList.h"
-int ActivityList::getListFromFile() {
+int ActivityList::getListFromFile() const {
     ActList.clear();
     std::ifstream txtlist("todolist.txt");
     if(!txtlist.is_open()){
-        std::cerr<<"File didn't open"<<std::endl;
         return -1;
     }
 
@@ -16,7 +15,7 @@ int ActivityList::getListFromFile() {
         std::istringstream iss(line); //separe values
         std::string item;
         std::string name, startTime, endTime;
-        bool done;
+        bool done = false;
         int column = 0;
         while(std::getline(iss, item, ',')) {
             switch(column){
@@ -46,26 +45,25 @@ int ActivityList::getListFromFile() {
         }
         ActList.push_back(a);
     }
-    std::cout<<"All activities were successfully copied"<<std::endl;
     txtlist.close();
     return 0;
 }
 
-void ActivityList::saveList() const {
+int ActivityList::saveList() const {
     std::ofstream txtlist;
     txtlist.open("todolist.txt");
     if(!txtlist.is_open()){
-        std::cerr<<"File didn't open"<<std::endl;
-        return;
+        return -1;
     }
     for(const Activity& a : ActList){
         txtlist << a.getNameActivity()<<","<<a.getStartTime()<<","<<a.getEndTime()<<","
         <<std::to_string(a.isDone())<<std::endl;
     }
     txtlist.close();
+    return 0;
 }
 
-int ActivityList::addActivity(std::string name) {
+int ActivityList::addActivity(const std::string& name) const{
     auto now = std::chrono::system_clock::now();
     std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
     Activity actv(name, time);
@@ -79,7 +77,7 @@ int ActivityList::addActivity(std::string name) {
 
 }
 
-int ActivityList::completeActivity(int complete) {
+int ActivityList::completeActivity(const int complete) const{
     if(!ActList[complete].isDone()) {
         ActList[complete].setDone(true);
         return 1;
@@ -89,7 +87,7 @@ int ActivityList::completeActivity(int complete) {
 }
 
 
-int ActivityList::removeActivity(int remove) {
+int ActivityList::removeActivity(const int remove) const{
     int forceRemove = 0;
     if(!ActList[remove].isDone()) {
         std::cout<<"Activity still not completed. You want to procede? Type 1 if you want: ";

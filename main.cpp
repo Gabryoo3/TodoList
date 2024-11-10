@@ -4,7 +4,12 @@
 #include "TUI.h"
 int main() {
       ActivityList list;
-      list.getListFromFile();
+      int check = list.getListFromFile();
+      if (check == -1) {
+            std::cerr<<"File didn't open"<<std::endl;
+            return -1;
+      }
+      std::cout<<"All activities were successfully copied"<<std::endl;
       list.printActivities();
       TUI tui;
       int choice = 0;
