@@ -6,10 +6,6 @@
 #define TODOLIST_ACTIVITY_H
 #include <iostream>
 
-//TODO data e ora per segnare le attività
-
-
-
 class Activity {
 public:
     Activity(const std::string& name, const std::string& currTime): nameActivity(name), startTime(currTime) {
@@ -28,7 +24,7 @@ public:
     }
 
     std::string getEndTime() const{
-        if (done)
+        if (!done)
             std::cout<<"Activity not finished yet";
         return endTime;
     }
