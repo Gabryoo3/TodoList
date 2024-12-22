@@ -20,9 +20,9 @@ public:
 
     int saveList() const ;
 
-    int addActivity(const std::string& activityName);
+    int addActivity(const std::string& activityName, const std::string& time);
 
-    int completeActivity(int complete);
+    int completeActivity(int complete, const std::string& time);
 
     int removeActivity(int remove);
 

@@ -9,7 +9,9 @@
 #include "../Activity.h"
 
 TEST(ActivityTest, testConstructor) {
-    Activity activity("Test");
+    auto now = std::chrono::system_clock::now();
+    const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+    const Activity activity("Test", time);
     ASSERT_EQ(activity.getNameActivity(), "Test");
     ASSERT_FALSE(activity.isDone());
 }

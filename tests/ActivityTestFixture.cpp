@@ -16,7 +16,9 @@ class ActivityTestFixture : public ::testing::Test {
 protected:
     Activity* activity{};
     void SetUp() override{
-        activity = new Activity("Test");
+        auto now = std::chrono::system_clock::now();
+        std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+        activity = new Activity("Test", time);
     }
 };
 

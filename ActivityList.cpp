@@ -63,24 +63,17 @@ int ActivityList::saveList() const {
     return 0;
 }
 
-int ActivityList::addActivity(const std::string& name){
-    auto now = std::chrono::system_clock::now();
-    std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+int ActivityList::addActivity(const std::string& name, const std::string& time){
     Activity actv(name, time);
     if(actv.getNameActivity()==name) {
         ActList.push_back(actv);
         return 0;
     }
-    else
-        return -1;
-
-
+    return -1;
 }
 
-int ActivityList::completeActivity(const int complete){
+int ActivityList::completeActivity(const int complete, const std::string& time){
     int result = 0;
-    auto now = std::chrono::system_clock::now();
-    const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
     if(!ActList[complete].isDone()) {
         ActList[complete].setDone(true);
         ActList[complete].setEndTime(time);

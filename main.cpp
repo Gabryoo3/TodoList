@@ -24,7 +24,9 @@ int main() {
                         std::string name;
                         std::cout<<"Insert activity name: ";
                         std::cin>>name;
-                        control = list.addActivity(name);
+                        auto now = std::chrono::system_clock::now();
+                        std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+                        control = list.addActivity(name, time);
 
                         if(control == 0) {
                               std::cout<<"Successfully added activity"<<std::endl;
@@ -47,7 +49,9 @@ int main() {
                               break;
                         }
                         //TODO controlla se attività già completata
-                        control = list.completeActivity(complete);
+                        auto now = std::chrono::system_clock::now();
+                        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+                        control = list.completeActivity(complete, time);
                         if(control == 0) {
                               std::cout<<"Activity successfully completed"<<std::endl;
                         }
@@ -93,13 +97,14 @@ int main() {
                   }
                   case 6: {
                         control = list.saveList();
-                        std::cout<<"Exiting..."<<std::endl;
                         if(control == -1)
                               std::cerr<<"Failed to save list"<<std::endl;
 
                         else if(control == 0)
                               std::cout<<"Successfully saved list"<<std::endl;
+                        std::cout<<"Exiting..."<<std::endl;
                         break;
+
                   }
                   default: {
                         std::cout<<"Wrong choice"<<std::endl;
