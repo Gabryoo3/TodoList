@@ -4,7 +4,7 @@
 
 #include "ActivityList.h"
 int ActivityList::getListFromFile() {
-    ActList.clear();
+    actList.clear();
     std::ifstream txtlist("todolist.txt");
     if(!txtlist.is_open()){
         return -1;
@@ -43,7 +43,7 @@ int ActivityList::getListFromFile() {
         if(a.isDone()) {
             a.setEndTime(endTime);
         }
-        ActList.push_back(a);
+        actList.push_back(a);
     }
     txtlist.close();
     return 0;
@@ -55,7 +55,7 @@ int ActivityList::saveList() const {
     if(!txtlist.is_open()){
         return -1;
     }
-    for(const Activity& a : ActList){
+    for(const Activity& a : actList){
         txtlist << a.getNameActivity()<<","<<a.getStartTime()<<","<<a.getEndTime()<<","
         <<std::to_string(a.isDone())<<std::endl;
     }
@@ -66,7 +66,8 @@ int ActivityList::saveList() const {
 int ActivityList::addActivity(const std::string& name, const std::string& time){
     Activity actv(name, time);
     if(actv.getNameActivity()==name) {
-        ActList.push_back(actv);
+        actList.push_back(actv);
+        notifyAdd(actv);
         return 0;
     }
     return -1;
@@ -74,14 +75,15 @@ int ActivityList::addActivity(const std::string& name, const std::string& time){
 
 int ActivityList::completeActivity(const int complete, const std::string& time){
     int result = 0;
-    if(!ActList[complete].isDone()) {
-        ActList[complete].setDone(true);
-        ActList[complete].setEndTime(time);
+    if(!actList[complete].isDone()) {
+        actList[complete].setDone(true);
+        actList[complete].setEndTime(time);
+        notifyComplete(actList[complete]);
         result = 0;
     }
-    else if (ActList[complete].isDone()) {
+    else
         result = 1;
-    }
+
     return result;
 
 }
@@ -89,14 +91,15 @@ int ActivityList::completeActivity(const int complete, const std::string& time){
 
 int ActivityList::removeActivity(const int remove){
     int forceRemove = 0;
-    if(!ActList[remove].isDone()) {
+    if(!actList[remove].isDone()) {
         std::cout<<"Activity still not completed. You want to procede? Type 1 if you want: ";
         std::cin>>forceRemove;
     }
-    if(forceRemove == 1) {
+    if(forceRemove != 1) {
         return -1;
     }
-    ActList.erase(ActList.begin()+remove);
+    actList.erase(actList.begin()+remove);
+    notifyRemove(actList[remove]);
     return 0;
 }
 
@@ -104,18 +107,19 @@ int ActivityList::removeActivity(const int remove){
 void ActivityList::printActivities() const{
     int i = 0;
     std::cout<<"Index Name          StartTime       EndTime"<<std::endl;
-    for (auto const &a : ActList){
+    for (auto const &a : actList){
         std::cout<<i<<" | "<<a.getNameActivity()<<" | ";
         std::cout<<a.getStartTime()<<" | ";
         std::cout<<a.getEndTime()/*<<" | ";
         std::cout<<( a.isDone() ? "true" : "false" )*/<<std::endl;
+        //it can be checked by the endtime if the activity is ended;
         i++;
     }
 }
 
 int ActivityList::remainingActivities() const {
     int total = 0;
-    for (auto const &a : ActList) {
+    for (auto const &a : actList) {
         if(!a.isDone()) {
             total++;
         }

@@ -13,6 +13,7 @@ int main() {
       std::cout<<"You have to complete "<<list.remainingActivities()<<" activities yet"<<std::endl;
       list.printActivities();
       TUI tui;
+      list.attach(&tui);
       int choice = 0;
       while(choice !=6) {
             int control = 0;
@@ -25,7 +26,7 @@ int main() {
                         std::cout<<"Insert activity name: ";
                         std::cin>>name;
                         auto now = std::chrono::system_clock::now();
-                        std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+                        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
                         control = list.addActivity(name, time);
 
                         if(control == 0) {

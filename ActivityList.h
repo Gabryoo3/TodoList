@@ -11,6 +11,7 @@
 #include <string>
 #include <chrono>
 #include "Activity.h"
+#include "Observer.h"
 
 
 class ActivityList {
@@ -31,14 +32,40 @@ public:
     int remainingActivities() const;
 
     int getSize() const {
-        return ActList.size();
+        return actList.size();
+    }
+
+    void attach(Observer* obs) {
+        observers.push_back(obs);
+    }
+
+    void detach(Observer* obs) {
+        std::erase(observers, obs);
+        //delete for observer value
+    }
+
+    void notifyAdd(const Activity& act) {
+        for(Observer* obs : observers) {
+            obs->updateAdd(act);
+        }
+    }
+
+    void notifyComplete(const Activity& act) {
+        for(Observer* obs : observers) {
+            obs->updateComplete(act);
+        }
+    }
+
+    void notifyRemove(const Activity& act) {
+        for(Observer* obs : observers) {
+            obs->updateRemove(act);
+        }
     }
 
 
-
-
 private:
-    std::vector<Activity> ActList;
+    std::vector<Activity> actList;
+    std::vector<Observer*> observers;
 };
 
 

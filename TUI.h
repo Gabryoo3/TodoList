@@ -5,11 +5,47 @@
 #ifndef TUI_H
 #define TUI_H
 #include <iostream>
+#include <fstream>
+#include <chrono>
+
+#include "Observer.h"
+
 
 //TODO Observer che tiene traccia cambiamenti
-class TUI {
+class TUI : public Observer {
 public:
-    void printMenu();
+    TUI(){
+        logFile.open("log.txt", std::ios::app);
+        if (!logFile.is_open()) {
+            std::cerr<<"Log file didn't open"<<std::endl;
+        }
+    }
+    ~TUI() override{
+        if (logFile.is_open())
+            logFile.close();
+    }
+
+    void updateAdd(const Activity& act) override{
+        auto now = std::chrono::system_clock::now();
+        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+        logFile<<"["<<time<<"]"<<"Activity "<<act.getNameActivity()<<" added"<<std::endl;
+    }
+
+    void updateComplete(const Activity& act) override{
+        auto now = std::chrono::system_clock::now();
+        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+        logFile<<"["<<time<<"]"<<"Activity "<<act.getNameActivity()<<" completed"<<std::endl;
+    }
+
+    void updateRemove(const Activity& act) override{
+        auto now = std::chrono::system_clock::now();
+        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+        logFile<<"["<<time<<"]"<<"Activity "<<act.getNameActivity()<<" removed"<<std::endl;
+    }
+    static void printMenu();
+
+private:
+    std::ofstream logFile;
 };
 
 
