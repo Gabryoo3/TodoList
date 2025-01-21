@@ -35,6 +35,10 @@ public:
         return actList.size();
     }
 
+    Activity& getActivity(int index) {
+        return actList[index];
+    }
+
     void attach(Observer* obs) {
         observers.push_back(obs);
     }

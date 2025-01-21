@@ -12,7 +12,6 @@ class ActivityListTestsFixture : public ::testing::Test {
 protected:
 
     ActivityList* al{};
-    std::string time;
 
     void SetUp() override {
         al = new ActivityList();
@@ -20,28 +19,33 @@ protected:
 };
 
 TEST_F(ActivityListTestsFixture, testAddActivity) {
-    auto now = std::chrono::system_clock::now();
-    time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
-    ASSERT_EQ(al->addActivity("test", time), 0);
+    const std::string time = "07-08-2019 14:19:32";
+    EXPECT_EQ(al->addActivity("test", time), 0);
     al->printActivities();
-    ASSERT_EQ(al->saveList(), 0);
-    ASSERT_EQ(al->getListFromFile(), 0);
+    EXPECT_EQ(al->saveList(), 0);
+    EXPECT_EQ(al->getListFromFile(), 0);
 }
 
 TEST_F(ActivityListTestsFixture, testCompleteActivity) {
-    auto now = std::chrono::system_clock::now();
-    const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
-    ASSERT_EQ(al->completeActivity(0,time), 0);
+
+    const std::string timeStart = "08-08-2019 14:19:32";
+    const std::string timeEnd = "08-08-2019 14:19:32";
+    al->addActivity("test", timeStart);
+    EXPECT_EQ(al->completeActivity(0,timeEnd), 0);
     al->printActivities();
-    ASSERT_EQ(al->saveList(), 0);
-    ASSERT_EQ(al->getListFromFile(), 0);
+    EXPECT_EQ(al->saveList(), 0);
+    EXPECT_EQ(al->getListFromFile(), 0);
 }
 
 TEST_F(ActivityListTestsFixture, testRemoveActivity) {
-    ASSERT_EQ(al->removeActivity(0), 0);
+    const std::string timeStart = "07-08-2019 14:19:32";
+    const std::string timeEnd = "08-08-2019 14:19:32";
+    al->addActivity("test", timeStart);
+    al->completeActivity(0, timeEnd);
+    EXPECT_EQ(al->removeActivity(0), 0);
     al->printActivities();
-    ASSERT_EQ(al->saveList(), 0);
-    ASSERT_EQ(al->getListFromFile(), 0);
+    EXPECT_EQ(al->saveList(), 0);
+    EXPECT_EQ(al->getListFromFile(), 0);
 }
 
 

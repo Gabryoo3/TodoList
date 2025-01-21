@@ -90,14 +90,6 @@ int ActivityList::completeActivity(const int complete, const std::string& time){
 
 
 int ActivityList::removeActivity(const int remove){
-    int forceRemove = 0;
-    if(!actList[remove].isDone()) {
-        std::cout<<"Activity still not completed. You want to procede? Type 1 if you want: ";
-        std::cin>>forceRemove;
-    }
-    if(forceRemove != 1) {
-        return -1;
-    }
     actList.erase(actList.begin()+remove);
     notifyRemove(actList[remove]);
     return 0;

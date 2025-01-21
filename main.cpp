@@ -3,9 +3,12 @@
 #include "ActivityList.h"
 #include "TUI.h"
 int main() {
+      /* small guide for the user */
+      /* 0 means that the operation is successful */
+      /* -1 means that the operation failed for external reasons */
+      /* 1 means that the operation was already done before */
       ActivityList list;
-      int check = list.getListFromFile();
-      if (check == -1) {
+      if (int check = list.getListFromFile(); check == -1) {
             std::cerr<<"File didn't open"<<std::endl;
             return -1;
       }
@@ -17,7 +20,7 @@ int main() {
       int choice = 0;
       while(choice !=6) {
             int control = 0;
-            tui.printMenu();
+            TUI::printMenu();
             std::cout<<"Insert your choice: ";
             std::cin >> choice;
             switch (choice) {
@@ -49,7 +52,7 @@ int main() {
                               std::cerr<<"Invalid index"<<std::endl;
                               break;
                         }
-                        //TODO controlla se attività già completata
+                        //TODO controlla se attività già completata fatto
                         auto now = std::chrono::system_clock::now();
                         const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
                         control = list.completeActivity(complete, time);
@@ -63,6 +66,7 @@ int main() {
 
                   case 3: {
                         int remove;
+                        bool force = false;
                         if(list.getSize() == 0) {
                               std::cerr<<"Empty list"<<std::endl;
                               break;
@@ -73,6 +77,16 @@ int main() {
                               std::cerr<<"Invalid index"<<std::endl;
                               break;
                         }
+                        if (!list.getActivity(remove).isDone()) {
+                              std::cout<<"Activity not completed yet, you want to procede? "
+                                         "Type 1 if you want, 0 otherwise: ";
+                              std::cin>>force;
+                        }
+                        if (force == 0) {
+                              std::cout<<"Operation aborted"<<std::endl;
+                              break;
+                        }
+
                         control = list.removeActivity(remove);
                         if(control == 0)
                               std::cout<<"Activity successfully removed"<<std::endl;
@@ -88,27 +102,30 @@ int main() {
                   case 5: {
 
                         control = list.saveList();
-                        if(control == -1)
-                              std::cerr<<"Failed to save list"<<std::endl;
 
-                        else if(control == 0)
+                         if(control == 0)
                               std::cout<<"Successfully saved list"<<std::endl;
+
+                         else if(control == -1)
+                              std::cerr<<"Failed to save list"<<std::endl;
 
                         break;
                   }
                   case 6: {
                         control = list.saveList();
+
+                        if(control == 0)
+                              std::cout<<"Successfully saved list"<<std::endl;
+
                         if(control == -1)
                               std::cerr<<"Failed to save list"<<std::endl;
-
-                        else if(control == 0)
-                              std::cout<<"Successfully saved list"<<std::endl;
                         std::cout<<"Exiting..."<<std::endl;
                         break;
 
                   }
                   default: {
                         std::cout<<"Wrong choice"<<std::endl;
+                        break;
                   }
             }
       }

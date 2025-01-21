@@ -16,21 +16,38 @@ class ActivityTestFixture : public ::testing::Test {
 protected:
     Activity* activity{};
     void SetUp() override{
-        auto now = std::chrono::system_clock::now();
-        std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
-        activity = new Activity("Test", time);
+        activity = new Activity("Test", "07-08-2019 14:19:32");
     }
 };
 
 TEST_F(ActivityTestFixture, testSetNameActivity) {
     activity->setNameActivity("Test2");
-    ASSERT_EQ(activity->getNameActivity(), "Test2");
+    EXPECT_EQ(activity->getNameActivity(), "Test2");
+    activity->setNameActivity("Test");
 }
 
-TEST_F(ActivityTestFixture, testSetDone) {
-    activity->setDone(true);
-    ASSERT_TRUE(activity->isDone());
+TEST_F(ActivityTestFixture, testGetNameAndDoneActivity) {
+    EXPECT_EQ(activity->getNameActivity(), "Test");
+    EXPECT_FALSE(activity->isDone());
 }
+
+
+TEST_F(ActivityTestFixture, testSetDone) {
+    EXPECT_FALSE(activity->isDone());
+    activity->setDone(true);
+    EXPECT_TRUE(activity->isDone());
+}
+
+TEST_F(ActivityTestFixture, testSetEndTime) {
+    EXPECT_NO_THROW({
+            activity->getEndTime();
+    });
+    activity->setEndTime("08-08-2019 14:19:32");
+    EXPECT_EQ(activity->getEndTime(), "08-08-2019 14:19:32");
+}
+
+
+
 
 
 
