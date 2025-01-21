@@ -102,8 +102,12 @@ void ActivityList::printActivities() const{
     for (auto const &a : actList){
         std::cout<<i<<" | "<<a.getNameActivity()<<" | ";
         std::cout<<a.getStartTime()<<" | ";
-        std::cout<<a.getEndTime()/*<<" | ";
-        std::cout<<( a.isDone() ? "true" : "false" )*/<<std::endl;
+        if (a.getEndTime().empty())
+            std::cout<<"Activity not finished yet"<<std::endl;
+        else {
+            std::cout<<a.getEndTime()<<std::endl;
+        }/*<<" | ";
+        std::cout<<( a.isDone() ? "true" : "false" )*/
         //it can be checked by the endtime if the activity is ended;
         i++;
     }

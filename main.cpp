@@ -2,6 +2,23 @@
 #include "Activity.h"
 #include "ActivityList.h"
 #include "TUI.h"
+
+void controlSaveList(const ActivityList& al) {
+
+      const int control = al.saveList();
+      if(control == 0)
+            std::cout<<"Successfully saved list"<<std::endl;
+
+      if(control == -1)
+            std::cerr<<"Failed to save list"<<std::endl;
+}
+
+void checkToComplete(const ActivityList& al) {
+      if (al.remainingActivities() == 0)
+            std::cout<<"You have completed all your activities!"<<std::endl;
+      std::cout<<"You have to complete "<<al.remainingActivities()<<" activities yet"<<std::endl;
+}
+
 int main() {
       /* small guide for the user */
       /* 0 means that the operation is successful */
@@ -13,7 +30,7 @@ int main() {
             return -1;
       }
       std::cout<<"All activities were successfully copied"<<std::endl;
-      std::cout<<"You have to complete "<<list.remainingActivities()<<" activities yet"<<std::endl;
+      checkToComplete(list);
       list.printActivities();
       TUI tui;
       list.attach(&tui);
@@ -52,7 +69,7 @@ int main() {
                               std::cerr<<"Invalid index"<<std::endl;
                               break;
                         }
-                        //TODO controlla se attività già completata fatto
+                        //TODO controlla se attività già completata: fatto
                         auto now = std::chrono::system_clock::now();
                         const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
                         control = list.completeActivity(complete, time);
@@ -61,6 +78,8 @@ int main() {
                         }
                         else if (control == 1)
                               std::cout<<"Activity was already completed"<<std::endl;
+                        checkToComplete(list);
+
                         break;
                   }
 
@@ -83,16 +102,13 @@ int main() {
                               std::cin>>force;
                         }
                         if (force == 0) {
-                              std::cout<<"Operation aborted"<<std::endl;
+                              std::cout<<"Remove failed"<<std::endl;
                               break;
                         }
 
                         control = list.removeActivity(remove);
                         if(control == 0)
                               std::cout<<"Activity successfully removed"<<std::endl;
-
-                        else if(control == -1)
-                              std::cerr<<"Failed to remove activity"<<std::endl;
                         break;
                   }
                   case 4: {
@@ -100,25 +116,11 @@ int main() {
                         break;
                   }
                   case 5: {
-
-                        control = list.saveList();
-
-                         if(control == 0)
-                              std::cout<<"Successfully saved list"<<std::endl;
-
-                         else if(control == -1)
-                              std::cerr<<"Failed to save list"<<std::endl;
-
+                        controlSaveList(list);
                         break;
                   }
                   case 6: {
-                        control = list.saveList();
-
-                        if(control == 0)
-                              std::cout<<"Successfully saved list"<<std::endl;
-
-                        if(control == -1)
-                              std::cerr<<"Failed to save list"<<std::endl;
+                        controlSaveList(list);
                         std::cout<<"Exiting..."<<std::endl;
                         break;
 
@@ -131,5 +133,6 @@ int main() {
       }
       return 0;
 
-
 }
+
+

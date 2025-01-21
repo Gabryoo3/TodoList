@@ -24,8 +24,6 @@ public:
     }
 
     std::string getEndTime() const{
-        if (!done)
-            std::cout<<"Activity not finished yet";
         return endTime;
     }
 
