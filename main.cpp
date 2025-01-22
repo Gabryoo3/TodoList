@@ -16,7 +16,8 @@ void controlSaveList(const ActivityList& al) {
 void checkToComplete(const ActivityList& al) {
       if (al.remainingActivities() == 0)
             std::cout<<"You have completed all your activities!"<<std::endl;
-      std::cout<<"You have to complete "<<al.remainingActivities()<<" activities yet"<<std::endl;
+      else
+            std::cout<<"You have to complete "<<al.remainingActivities()<<" activities yet"<<std::endl;
 }
 
 int main() {
@@ -61,6 +62,7 @@ int main() {
                         int complete;
                         if(list.getSize() == 0) {
                               std::cerr<<"Empty list"<<std::endl;
+
                               break;
                         }
                         std::cout<<"Insert index of the activity you want to complete: ";
@@ -105,7 +107,6 @@ int main() {
                               std::cout<<"Remove failed"<<std::endl;
                               break;
                         }
-
                         control = list.removeActivity(remove);
                         if(control == 0)
                               std::cout<<"Activity successfully removed"<<std::endl;

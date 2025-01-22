@@ -36,7 +36,10 @@ public:
     }
 
     Activity& getActivity(int index) {
-        return actList[index];
+        if (index < 0 || index >= actList.size()) {
+            throw std::out_of_range("Activity index out of range");
+        }
+        return actList.at(index);
     }
 
     void attach(Observer* obs) {

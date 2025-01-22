@@ -1,7 +1,6 @@
 //
 // Created by gabry on 7/25/24.
 //
-
 #include "ActivityList.h"
 int ActivityList::getListFromFile() {
     actList.clear();
@@ -85,13 +84,12 @@ int ActivityList::completeActivity(const int complete, const std::string& time){
         result = 1;
 
     return result;
-
 }
 
 
 int ActivityList::removeActivity(const int remove){
-    actList.erase(actList.begin()+remove);
-    notifyRemove(actList[remove]);
+        actList.erase(actList.begin()+remove);
+        notifyRemove(actList[remove]);
     return 0;
 }
 
