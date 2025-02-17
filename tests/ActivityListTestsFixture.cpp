@@ -47,7 +47,7 @@ TEST_F(ActivityListTestsFixture, testRemoveActivity) {
     EXPECT_EQ(al->saveList(), 0);
     EXPECT_EQ(al->getListFromFile(), 0);
 }
-
+//test conteggio attività
 
 
 

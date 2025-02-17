@@ -30,7 +30,8 @@ TEST_F(ActivityTestFixture, testGetNameAndDoneActivity) {
     EXPECT_EQ(activity->getNameActivity(), "Test");
     EXPECT_FALSE(activity->isDone());
 }
-
+//endtime impossibile e starttime impossibile, gestire eccezioni
+//endtime < startime, gestire eccezioni
 
 TEST_F(ActivityTestFixture, testSetDone) {
     EXPECT_FALSE(activity->isDone());

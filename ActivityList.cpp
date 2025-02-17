@@ -68,7 +68,7 @@ int ActivityList::addActivity(const std::string& name, const std::string& time){
     if(actv.getNameActivity()==name) {
         actList.push_back(actv);
         notifyAdd(actv);
-        return 0;
+        return 0; //modifica a boolean
     }
     return -1;
 }
@@ -79,10 +79,10 @@ int ActivityList::completeActivity(const int complete, const std::string& time){
         actList[complete].setDone(true);
         actList[complete].setEndTime(time);
         notifyComplete(actList[complete]);
-        result = 0;
     }
     else
         result = 1;
+
 
     return result;
 
@@ -92,7 +92,7 @@ int ActivityList::completeActivity(const int complete, const std::string& time){
 int ActivityList::removeActivity(const int remove){
     actList.erase(actList.begin()+remove);
     notifyRemove(actList[remove]);
-    return 0;
+    return 0; //settare a void
 }
 
 

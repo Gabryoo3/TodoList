@@ -16,7 +16,7 @@ void controlSaveList(const ActivityList& al) {
 void checkToComplete(const ActivityList& al) {
       if (al.remainingActivities() == 0)
             std::cout<<"You have completed all your activities!"<<std::endl;
-      std::cout<<"You have to complete "<<al.remainingActivities()<<" activities yet"<<std::endl;
+      std::cout<<"You have to complete "<<al.remainingActivities()<<" activities yet"<<std::endl; //spostare in activitylist
 }
 
 int main() {

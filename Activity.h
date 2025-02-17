@@ -19,7 +19,7 @@ public:
         return done;
     }
 
-    std::string getStartTime() const{
+    std::string getStartTime() const{ //aggiungere controllo
         return startTime;
     }
 
