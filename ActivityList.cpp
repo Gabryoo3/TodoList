@@ -3,6 +3,17 @@
 //
 
 #include "ActivityList.h"
+
+std::chrono::system_clock::time_point parseTimePoint(const std::string& timeStr) {
+    std::tm tm = {};
+    std::istringstream ss(timeStr);
+    ss >> std::get_time(&tm, "%d-%m-%Y %H:%M:%S");
+    /*if (ss.fail()) {
+        throw std::runtime_error("Failed to parse time string");
+    }*/
+    return std::chrono::system_clock::from_time_t(std::mktime(&tm));
+}
+
 int ActivityList::getListFromFile() {
     actList.clear();
     std::ifstream txtlist("todolist.txt");
@@ -13,8 +24,8 @@ int ActivityList::getListFromFile() {
     std::string line;
     while(std::getline(txtlist >> std::ws, line)){
         std::istringstream iss(line); //separe values
-        std::string item;
-        std::string name, startTime, endTime;
+        std::string item, name;
+        std::chrono::system_clock::time_point startTime, endTime;
         bool done = false;
         int column = 0;
         while(std::getline(iss, item, ',')) {
@@ -23,14 +34,14 @@ int ActivityList::getListFromFile() {
                     name = item;
                 break;
                 case 1:
-                    startTime = item;
+                    startTime = parseTimePoint(item);
                 break;
                 case 2:
-                    endTime = item;
+                    endTime = parseTimePoint(item);
                 break;
-                case 3:
+                /*case 3:
                     done = std::stoi(item);
-                break;
+                break;*/ //since the presence of the endtime is enough to check if the activity is done
                 default:
                     break;
         }
@@ -56,43 +67,46 @@ int ActivityList::saveList() const {
         return -1;
     }
     for(const Activity& a : actList){
-        txtlist << a.getNameActivity()<<","<<a.getStartTime()<<","<<a.getEndTime()<<","
-        <<std::to_string(a.isDone())<<std::endl;
+        txtlist << a.getNameActivity()<<",";
+        auto startTime = std::chrono::system_clock::to_time_t(a.getStartTime());
+        txtlist <<std::put_time(std::localtime(&startTime), "%d-%m-%Y %H:%M:%S")<<",";
+        auto endTime = std::chrono::system_clock::to_time_t(a.getEndTime());
+        txtlist <<std::put_time(std::localtime(&endTime), "%d-%m-%Y %H:%M:%S")<</*",";
+        txtlist <<std::to_string(a.isDone())<<*/std::endl;
+
     }
     txtlist.close();
     return 0;
 }
 
-int ActivityList::addActivity(const std::string& name, const std::string& time){
+bool ActivityList::addActivity(const std::string& name, const std::chrono::system_clock::time_point& time){
     Activity actv(name, time);
     if(actv.getNameActivity()==name) {
         actList.push_back(actv);
         notifyAdd(actv);
-        return 0; //modifica a boolean
+        return true; //modifica a boolean:fatto
     }
-    return -1;
+    return false;
 }
 
-int ActivityList::completeActivity(const int complete, const std::string& time){
-    int result = 0;
+bool ActivityList::completeActivity(const int complete, const std::chrono::system_clock::time_point& time){
+    bool isCompleted = false;
     if(!actList[complete].isDone()) {
         actList[complete].setDone(true);
         actList[complete].setEndTime(time);
         notifyComplete(actList[complete]);
     }
     else
-        result = 1;
-
-
-    return result;
+        isCompleted = true;
+    return isCompleted;
 
 }
 
 
-int ActivityList::removeActivity(const int remove){
+void ActivityList::removeActivity(const int remove){
     actList.erase(actList.begin()+remove);
     notifyRemove(actList[remove]);
-    return 0; //settare a void
+     //settare a void:fatto
 }
 
 
@@ -101,11 +115,14 @@ void ActivityList::printActivities() const{
     std::cout<<"Index Name          StartTime       EndTime"<<std::endl;
     for (auto const &a : actList){
         std::cout<<i<<" | "<<a.getNameActivity()<<" | ";
-        std::cout<<a.getStartTime()<<" | ";
-        if (a.getEndTime().empty())
+        auto startTime = std::chrono::system_clock::to_time_t(a.getStartTime());
+        std::cout<<std::put_time(std::localtime(&startTime), "%d-%m-%Y %H:%M:%S")<<" | ";
+        auto endTimePoint = a.getEndTime(); //for the comparison, I need the time_point, not the time_t
+        if (endTimePoint == std::chrono::system_clock::time_point())
             std::cout<<"Activity not finished yet"<<std::endl;
         else {
-            std::cout<<a.getEndTime()<<std::endl;
+            auto endTime = std::chrono::system_clock::to_time_t(endTimePoint);
+            std::cout<<std::put_time(std::localtime(&endTime), "%d-%m-%Y %H:%M:%S")<<std::endl;
         }/*<<" | ";
         std::cout<<( a.isDone() ? "true" : "false" )*/
         //it can be checked by the endtime if the activity is ended;
@@ -123,6 +140,8 @@ int ActivityList::remainingActivities() const {
     return total;
 
 }
+
+
 
 
 

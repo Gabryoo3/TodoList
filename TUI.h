@@ -27,19 +27,22 @@ public:
 
     void updateAdd(const Activity& act) override{
         auto now = std::chrono::system_clock::now();
-        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+        auto addTime = std::chrono::system_clock::to_time_t(now);
+        auto time = std::put_time(std::localtime(&addTime), "%d-%m-%Y %H:%M:%S");
         logFile<<"["<<time<<"]"<<"Activity "<<act.getNameActivity()<<" added"<<std::endl;
     }
 
     void updateComplete(const Activity& act) override{
         auto now = std::chrono::system_clock::now();
-        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+        auto addTime = std::chrono::system_clock::to_time_t(now);
+        auto time = std::put_time(std::localtime(&addTime), "%d-%m-%Y %H:%M:%S");
         logFile<<"["<<time<<"]"<<"Activity "<<act.getNameActivity()<<" completed"<<std::endl;
     }
 
     void updateRemove(const Activity& act) override{
         auto now = std::chrono::system_clock::now();
-        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
+        auto addTime = std::chrono::system_clock::to_time_t(now);
+        auto time = std::put_time(std::localtime(&addTime), "%d-%m-%Y %H:%M:%S");
         logFile<<"["<<time<<"]"<<"Activity "<<act.getNameActivity()<<" removed"<<std::endl;
     }
     static void printMenu();

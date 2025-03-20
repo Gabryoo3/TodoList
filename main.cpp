@@ -4,7 +4,6 @@
 #include "TUI.h"
 
 void controlSaveList(const ActivityList& al) {
-
       const int control = al.saveList();
       if(control == 0)
             std::cout<<"Successfully saved list"<<std::endl;
@@ -14,17 +13,15 @@ void controlSaveList(const ActivityList& al) {
 }
 
 void checkToComplete(const ActivityList& al) {
-      if (al.remainingActivities() == 0)
+      if (al.getSize() == 0)
+            std::cout<<"There are no activities in the list, add one!"<<std::endl;
+      else if (al.remainingActivities() == 0)
             std::cout<<"You have completed all your activities!"<<std::endl;
       else
             std::cout<<"You have to complete "<<al.remainingActivities()<<" activities yet"<<std::endl;
 }
 
 int main() {
-      /* small guide for the user */
-      /* 0 means that the operation is successful */
-      /* -1 means that the operation failed for external reasons */
-      /* 1 means that the operation was already done before */
       ActivityList list;
       if (int check = list.getListFromFile(); check == -1) {
             std::cerr<<"File didn't open"<<std::endl;
@@ -37,51 +34,47 @@ int main() {
       list.attach(&tui);
       int choice = 0;
       while(choice !=6) {
-            int control = 0;
             TUI::printMenu();
             std::cout<<"Insert your choice: ";
             std::cin >> choice;
             switch (choice) {
                   case 1: {
+                        bool isAdded = false;
                         std::string name;
                         std::cout<<"Insert activity name: ";
                         std::cin>>name;
                         auto now = std::chrono::system_clock::now();
-                        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
-                        control = list.addActivity(name, time);
-
-                        if(control == 0) {
+                        isAdded = list.addActivity(name, now);
+                        if(isAdded == true) {
                               std::cout<<"Successfully added activity"<<std::endl;
                         }
-                        else if(control==-1) {
+                        else if(isAdded == false) {
                               std::cerr<<"Failed to add activity"<<std::endl;
                         }
                         break;
                   }
                   case 2: {
+                        bool isCompleted = false;
                         int complete;
                         if(list.getSize() == 0) {
                               std::cerr<<"Empty list"<<std::endl;
-
                               break;
                         }
                         std::cout<<"Insert index of the activity you want to complete: ";
                         std::cin>>complete;
-                        if(complete > list.getSize() || complete < 0) {
+                        if(complete >= list.getSize() || complete < 0) {
                               std::cerr<<"Invalid index"<<std::endl;
                               break;
                         }
                         //TODO controlla se attività già completata: fatto
                         auto now = std::chrono::system_clock::now();
-                        const std::string time = std::format("{:%d-%m-%Y %H:%M:%OS}", now);
-                        control = list.completeActivity(complete, time);
-                        if(control == 0) {
+                        isCompleted = list.completeActivity(complete, now);
+                        if(isCompleted == false) {
                               std::cout<<"Activity successfully completed"<<std::endl;
                         }
-                        else if (control == 1)
+                        else if (isCompleted == true)
                               std::cout<<"Activity was already completed"<<std::endl;
                         checkToComplete(list);
-
                         break;
                   }
 
@@ -94,7 +87,7 @@ int main() {
                         }
                         std::cout<<"Insert index of the activity you want to remove: ";
                         std::cin>>remove;
-                        if(remove > list.getSize() || remove < 0) {
+                        if(remove >= list.getSize() || remove < 0) {
                               std::cerr<<"Invalid index"<<std::endl;
                               break;
                         }
@@ -103,13 +96,12 @@ int main() {
                                          "Type 1 if you want, 0 otherwise: ";
                               std::cin>>force;
                         }
-                        if (force == 0) {
+                        if (!list.getActivity(remove).isDone() && force == 0) {
                               std::cout<<"Remove failed"<<std::endl;
                               break;
                         }
-                        control = list.removeActivity(remove);
-                        if(control == 0)
-                              std::cout<<"Activity successfully removed"<<std::endl;
+                        list.removeActivity(remove);
+                        std::cout<<"Activity successfully removed"<<std::endl;
                         break;
                   }
                   case 4: {
@@ -124,7 +116,6 @@ int main() {
                         controlSaveList(list);
                         std::cout<<"Exiting..."<<std::endl;
                         break;
-
                   }
                   default: {
                         std::cout<<"Wrong choice"<<std::endl;

@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string>
 #include <chrono>
+#include <ctime>
 #include "Activity.h"
 #include "Observer.h"
 
@@ -21,11 +22,11 @@ public:
 
     int saveList() const ;
 
-    int addActivity(const std::string& activityName, const std::string& time);
+    bool addActivity(const std::string& activityName, const std::chrono::system_clock::time_point& time);
 
-    int completeActivity(int complete, const std::string& time);
+    bool completeActivity(int complete, const std::chrono::system_clock::time_point& time);
 
-    int removeActivity(int remove);
+    void removeActivity(int remove);
 
     void printActivities() const;
 
