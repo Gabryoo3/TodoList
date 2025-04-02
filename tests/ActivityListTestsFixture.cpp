@@ -26,28 +26,31 @@ TEST_F(ActivityListTestsFixture, testAddActivity) {
     EXPECT_EQ(al->getListFromFile(), 0);
 }
 
-/*TEST_F(ActivityListTestsFixture, testCompleteActivity) {
-
-    const std::string timeStart = "08-08-2019 14:19:32";
-    const std::string timeEnd = "08-08-2019 14:19:32";
-    al->addActivity("test", timeStart);
-    EXPECT_EQ(al->completeActivity(0,timeEnd), 0);
+TEST_F(ActivityListTestsFixture, testCompleteActivity) {
+    al->addActivity("test", std::chrono::system_clock::now());
+    EXPECT_TRUE(al->completeActivity(0,std::chrono::system_clock::now()));
     al->printActivities();
     EXPECT_EQ(al->saveList(), 0);
     EXPECT_EQ(al->getListFromFile(), 0);
-}*/
+}
 
-/*TEST_F(ActivityListTestsFixture, testRemoveActivity) {
-    const std::string timeStart = "07-08-2019 14:19:32";
-    const std::string timeEnd = "08-08-2019 14:19:32";
-    al->addActivity("test", timeStart);
-    al->completeActivity(0, timeEnd);
-    EXPECT_EQ(al->removeActivity(0), 0);
+TEST_F(ActivityListTestsFixture, testRemoveActivity) {
+    al->addActivity("test", std::chrono::system_clock::now());
+    al->removeActivity(0);
+    EXPECT_EQ(al->getSize(), 0);
     al->printActivities();
     EXPECT_EQ(al->saveList(), 0);
     EXPECT_EQ(al->getListFromFile(), 0);
-}*/
+
+}
+
 //test conteggio attività
+TEST_F(ActivityListTestsFixture, testGetSize) {
+    al->addActivity("test", std::chrono::system_clock::now());
+    EXPECT_EQ(al->getSize(), 1);
+    al->removeActivity(0);
+    EXPECT_EQ(al->getSize(), 0);
+}
 
 
 

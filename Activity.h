@@ -44,6 +44,8 @@ public:
     }
 
 
+
+
 private:
     std::string nameActivity;
     bool done = false;
