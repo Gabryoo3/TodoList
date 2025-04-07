@@ -43,8 +43,6 @@ TEST_F(ActivityTestFixture, endTimeMinor)
         throw std::runtime_error("Failed to parse time string");
     }
     auto invalidEndTime = std::chrono::system_clock::from_time_t(std::mktime(&tm));
-    /*auto now = std::chrono::system_clock::now();
-    activity->setStartTime(now);*/
     EXPECT_THROW(activity->setEndTime(invalidEndTime), std::invalid_argument);
 }
 
@@ -52,13 +50,19 @@ TEST_F(ActivityTestFixture, endTimeMinor)
 TEST_F(ActivityTestFixture, impossibleTime)
 {
     std::tm tm = {};
-    std::istringstream ss("2023-14-11 12:12:12"); // Before start time
-    ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+    std::istringstream ss("14-23-2025 12:12:12"); // Before start time
+    ss >> std::get_time(&tm, "%d-%m-%y %H:%M:%S");
     EXPECT_TRUE(ss.fail());
     if (ss.fail()) {
         EXPECT_THROW(throw std::runtime_error("Failed to parse time string"), std::runtime_error);
     }
 }
+
+TEST_F(ActivityTestFixture, testGetEndTimeEpoch) {
+    auto endTime = activity->getEndTime();
+    EXPECT_EQ(endTime, std::chrono::system_clock::time_point());
+}
+
 
 TEST_F(ActivityTestFixture, testSetDone) {
     EXPECT_FALSE(activity->isDone());
@@ -81,10 +85,6 @@ TEST_F(ActivityTestFixture, testSetEndTime) {
     activity->setEndTime(time);
     EXPECT_EQ(activity->getEndTime(), time);
 }
-
-
-
-
 
 
 

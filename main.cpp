@@ -93,7 +93,7 @@ int main() {
                         }
                         if (!list.getActivity(remove).isDone()) {
                               std::cout<<"Activity not completed yet, you want to procede? "
-                                         "Type 1 if you want, 0 otherwise: ";
+                                    "Type 1 if you want, 0 otherwise: ";
                               std::cin>>force;
                         }
                         if (!list.getActivity(remove).isDone() && force == 0) {

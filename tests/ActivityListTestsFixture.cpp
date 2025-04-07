@@ -20,7 +20,7 @@ protected:
 
 TEST_F(ActivityListTestsFixture, testAddActivity) {
     auto time = std::chrono::system_clock::now();
-    EXPECT_EQ(al->addActivity("test", time), 0);
+    EXPECT_TRUE(al->addActivity("test", time));
     al->printActivities();
     EXPECT_EQ(al->saveList(), 0);
     EXPECT_EQ(al->getListFromFile(), 0);
@@ -28,7 +28,16 @@ TEST_F(ActivityListTestsFixture, testAddActivity) {
 
 TEST_F(ActivityListTestsFixture, testCompleteActivity) {
     al->addActivity("test", std::chrono::system_clock::now());
-    EXPECT_TRUE(al->completeActivity(0,std::chrono::system_clock::now()));
+    EXPECT_FALSE(al->completeActivity(0,std::chrono::system_clock::now())); //false because activity is not completed yet
+    al->printActivities();
+    EXPECT_EQ(al->saveList(), 0);
+    EXPECT_EQ(al->getListFromFile(), 0);
+}
+
+TEST_F(ActivityListTestsFixture, testCompleteActivityAlreadyDone) {
+    al->addActivity("test", std::chrono::system_clock::now());
+    al->completeActivity(0,std::chrono::system_clock::now());
+    EXPECT_TRUE(al->completeActivity(0,std::chrono::system_clock::now())); //true because activity is already completed
     al->printActivities();
     EXPECT_EQ(al->saveList(), 0);
     EXPECT_EQ(al->getListFromFile(), 0);
@@ -41,8 +50,8 @@ TEST_F(ActivityListTestsFixture, testRemoveActivity) {
     al->printActivities();
     EXPECT_EQ(al->saveList(), 0);
     EXPECT_EQ(al->getListFromFile(), 0);
-
 }
+
 
 //test conteggio attività
 TEST_F(ActivityListTestsFixture, testGetSize) {

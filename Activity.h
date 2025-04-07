@@ -7,20 +7,21 @@
 #include <iostream>
 #include <chrono>
 
+
 class Activity {
 public:
     Activity(const std::string& name, const std::chrono::system_clock::time_point& currTime): nameActivity(name), startTime(currTime) {
     }
 
     std::string getNameActivity() const{
-        return nameActivity; //FIXME
+        return nameActivity; //FIXME: fatto
     }
 
     bool isDone() const {
         return done;
     }
 
-    std::chrono::system_clock::time_point getStartTime() const{ //aggiungere controllo
+    std::chrono::system_clock::time_point getStartTime() const{
         return startTime;
     }
 
@@ -42,8 +43,6 @@ public:
         }
         Activity::endTime = endTime;
     }
-
-
 
 
 private:
