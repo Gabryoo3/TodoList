@@ -11,6 +11,9 @@
 class Activity {
 public:
     Activity(const std::string& name, const std::chrono::system_clock::time_point& currTime): nameActivity(name), startTime(currTime) {
+        if (name.empty()) {
+            throw std::invalid_argument("Activity name cannot be empty");
+        }
     }
 
     std::string getNameActivity() const{

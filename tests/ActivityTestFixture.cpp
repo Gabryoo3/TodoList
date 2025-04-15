@@ -46,6 +46,7 @@ TEST_F(ActivityTestFixture, endTimeMinor)
     EXPECT_THROW(activity->setEndTime(invalidEndTime), std::invalid_argument);
 }
 
+
 //time impossibile, gestire eccezioni
 TEST_F(ActivityTestFixture, impossibleTime)
 {
@@ -56,7 +57,7 @@ TEST_F(ActivityTestFixture, impossibleTime)
     if (ss.fail()) {
         EXPECT_THROW(throw std::runtime_error("Failed to parse time string"), std::runtime_error);
     }
-}
+} //it can be valid also for a bad time formatting
 
 TEST_F(ActivityTestFixture, testGetEndTimeEpoch) {
     auto endTime = activity->getEndTime();
@@ -86,6 +87,14 @@ TEST_F(ActivityTestFixture, testSetEndTime) {
     EXPECT_EQ(activity->getEndTime(), time);
 }
 
+TEST_F(ActivityTestFixture, emptyActivityName) {
+    EXPECT_THROW(Activity a("", std::chrono::system_clock::now()), std::invalid_argument);
+}
 
+TEST_F(ActivityTestFixture, testSetEndTimeToSameAsStartTime) {
+    auto startTime = activity->getStartTime();
+    EXPECT_NO_THROW(activity->setEndTime(startTime));
+    EXPECT_EQ(activity->getEndTime(), startTime);
+}
 
 #endif //ACTIVITYTEST_H

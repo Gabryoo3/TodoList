@@ -70,6 +70,10 @@ public:
         }
     }
 
+    int numObservers() const {
+        return observers.size();
+    }
+
 
 private:
     std::vector<Activity> actList;
