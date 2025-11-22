@@ -90,6 +90,9 @@ bool ActivityList::addActivity(const std::string& name, const std::chrono::syste
 }
 
 bool ActivityList::completeActivity(const int complete, const std::chrono::system_clock::time_point& time){
+    if (complete < 0 || complete >= actList.size()) {
+        throw std::out_of_range("Activity index out of range");
+    }
     bool isCompleted = false;
     if(!actList[complete].isDone()) {
         actList[complete].setDone(true);

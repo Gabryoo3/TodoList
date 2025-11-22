@@ -55,6 +55,11 @@ TEST_F(ActivityListTestsFixture, testRemoveActivity) {
     EXPECT_EQ(al->getListFromFile(), 0);
 }
 
+TEST_F(ActivityListTestsFixture, completeInvalidIndex){
+    al->addActivity("test", std::chrono::system_clock::now());
+    EXPECT_THROW(al->completeActivity(1,std::chrono::system_clock::now()), std::out_of_range);
+}
+
 //remove and complete nonexistent activity return sigsev because the control of the index is not done by the method
 //but by the caller, so it is not a test unless you check the caller
 
